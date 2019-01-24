@@ -20,10 +20,10 @@ description: >- # this means to ignore newlines until "baseurl:"
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
 baseurl: /mm-remote-theme-test
-url: https://mmistakes.github.io
-twitter_username: mmistakes
-github_username: mmistakes
-minimal_mistakes_skin: dark
+url: https://albertotb.github.io
+twitter_username:
+github_username: albertotb
+minimal_mistakes_skin: default
 
 # Build settings
 markdown: kramdown
@@ -71,7 +71,7 @@ defaults:
     values:
       layout: single
       author_profile: true
-      read_time: true
-      comments: true
+      read_time:
+      comments:
       share: true
       related: true
