@@ -5,6 +5,7 @@ tags: r python scipy distributions
 
 The name for the different functions that work with probability distributions in R and SciPy is different, which is often confusing. The following table lists the equivalence between the main functions:
 
+{: text-align: center;"}
 | R                           | SciPy   | Name                                          |
 |-----------------------------|---------|-----------------------------------------------|
 | `dnorm()`                   | `pdf()` | Probability density function (PDF)            |
