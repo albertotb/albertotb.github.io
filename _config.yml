@@ -20,6 +20,7 @@ baseurl:
 url: https://albertotb.github.io
 twitter_username:
 github_username: albertotb
+linkdin_username: albertotb
 minimal_mistakes_skin: default
 
 # Build settings
@@ -66,11 +67,11 @@ author:
   email  : "alberto.torres@icmat.es"
   location : "Madrid"
   github : "albertotb"
-  #linkdin: "albertotb"
-  links :
-    - label : "Linkdin"
-      icon  : "fab fa-linkedin"
-      url   : "https://www.linkedin.com/in/albertotb/"
+  linkdin: "albertotb"
+  #links :
+  #  - label : "Linkdin"
+  #    icon  : "fab fa-linkedin"
+  #    url   : "https://www.linkedin.com/in/albertotb/"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
