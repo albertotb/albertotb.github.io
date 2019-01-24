@@ -1,0 +1,12 @@
+---
+title: 'Unix: cambiar los colores de ls'
+date: '2012-02-24T13:02:00.003+01:00'
+author: Alberto Torres Barrán
+tags:
+- linux bash ls colors
+modified_time: '2012-02-24T14:30:09.997+01:00'
+blogger_id: tag:blogger.com,1999:blog-5062930559472516636.post-1737495845041590987
+blogger_orig_url: http://sk-forgetmenot.blogspot.com/2012/02/unix-cambiar-los-colores-de-ls.html
+---
+
+Para activar los colores del comando ls deberías tener el siguiente alias definido en el sistema:<br /><br /><code>alias ls='ls --color=auto'</code><br /><br />de forma que cada vez que se haga un ls en realidad sea un ls con la opción color. Los colores por defecto vienen determinados por la variable de entorno <code>LS_COLORS</code>, así que una opción para modificarlos es cambiar esta variable directamente con un export. <br /><br />Sin embargo, existe una utilidad que hace el trabajo por nosotros: dircolors (man dircolors para más información). Por defecto, dircolors utiliza el archivo de colores <code>/etc/DIR_COLORS</code>, pero esto se puede sobreescribir con el archivo de colores <code>~/.dir_colors</code>. Por lo tanto, para modificar los colores basta con copiar el fichero por defecto:<br /><br /><code>cp /etc/DIR_COLORS ~/.dir_colors</code><br /><br />Y editar el archivo <code>~/.dir_colors</code> de acuerdo con los códigos de color en los comentarios del fichero.<br /><br /><a href="http://blog.hostonnet.com/change-ls-color-in-bash-centosrhelfedora">Fuente</a>

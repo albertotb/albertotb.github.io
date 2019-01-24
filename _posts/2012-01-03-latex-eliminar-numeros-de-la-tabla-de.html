@@ -1,0 +1,12 @@
+---
+title: 'LaTeX: Eliminar números de la tabla de contenidos (índice)'
+date: '2012-01-03T22:47:00.000+01:00'
+author: Alberto Torres Barrán
+tags:
+- latex toc numbering
+modified_time: '2012-01-03T22:49:53.176+01:00'
+blogger_id: tag:blogger.com,1999:blog-5062930559472516636.post-893972730255674943
+blogger_orig_url: http://sk-forgetmenot.blogspot.com/2012/01/latex-eliminar-numeros-de-la-tabla-de.html
+---
+
+Para eliminar los números de la tabla de contenidos (TOC) de LaTeX, basta con poner la siguiente definición en el preámbulo:<br /><br /><pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>\let\Contentsline\contentsline<br />\renewcommand\contentsline[3]{\Contentsline{#1}{#2}{}}  <br /></code></pre>

@@ -1,0 +1,12 @@
+---
+title: 'R: medir el tiempo de ejecución'
+date: '2011-12-15T18:58:00.000+01:00'
+author: Alberto Torres Barrán
+tags:
+- R time
+modified_time: '2011-12-15T19:00:19.550+01:00'
+blogger_id: tag:blogger.com,1999:blog-5062930559472516636.post-1734111925255127557
+blogger_orig_url: http://sk-forgetmenot.blogspot.com/2011/12/r-medir-el-tiempo-de-ejecucion.html
+---
+
+Para medir el tiempo de ejecución en R se puede usar la función <a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/system.time.html">system.time</a>, que devuelve un objeto de tipo <a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/proc.time.html">proc.time</a>. De acuerdo con la documentación, <code>proc.time</code> es un vector de tamaño 5 donde <blockquote><i>the third entry is the ‘real’ elapsed time since the process was started </i></blockquote>Por lo tanto, para medir el tiempo de ejecución medio de <code>N</code> ejecuciones de una función <code>f</code> se puede utilizar la expresión:<br /><pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>mean(replicate(N, system.time( f(...) )[3]))<br /></code></pre>

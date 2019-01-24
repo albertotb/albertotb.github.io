@@ -1,0 +1,12 @@
+---
+title: 'Bash: añadir columna con número de linea'
+date: '2011-12-15T18:48:00.000+01:00'
+author: Alberto Torres Barrán
+tags:
+- bash awk
+modified_time: '2012-04-30T17:43:00.922+02:00'
+blogger_id: tag:blogger.com,1999:blog-5062930559472516636.post-5366073943795007174
+blogger_orig_url: http://sk-forgetmenot.blogspot.com/2011/12/bash-anadir-columna-con-numero-de-linea.html
+---
+
+Para añadir una columna a un fichero que contenga el número de línea se puede utilizar awk:<br /><pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>awk '{print FNR " " $0}' file<br /></code></pre>Del <i>man</i> de awk:<br /><blockquote>FNR The input record number in the current input file.</blockquote>

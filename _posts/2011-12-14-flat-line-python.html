@@ -1,0 +1,12 @@
+---
+title: Flat list Python
+date: '2011-12-14T11:26:00.001+01:00'
+author: Alberto Torres Barrán
+tags:
+- python
+modified_time: '2011-12-15T18:48:20.227+01:00'
+blogger_id: tag:blogger.com,1999:blog-5062930559472516636.post-2162017583955817603
+blogger_orig_url: http://sk-forgetmenot.blogspot.com/2011/12/flat-line-python.html
+---
+
+La operación de <i>flattening</i> es bastante común a la hora de programar, y consiste en convertir una lista/array en 2 dimensiones como la siguiente:<br /><br /><pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>[[1,2,3],[4,5,6],[7,8,9]]<br /></code></pre><br />en una lista/array de 1 dimensión:<br /><br /><pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>[1,2,3,4,5,6,7,8,9]<br /></code></pre><br />En Python, una forma fácil de realizar esta operación en la lista <code>l</code> es:<br /><br /><pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>[item for sublist in l for item in sublist]<br /></code></pre><br />Fuente: <a href="http://stackoverflow.com/questions/952914/making-a-flat-list-out-of-list-of-lists-in-python">Making a flat list out of list of lists in Python</a>

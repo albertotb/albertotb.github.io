@@ -1,0 +1,14 @@
+---
+title: 'Python: realizar profile del código'
+date: '2012-02-16T12:53:00.002+01:00'
+author: Alberto Torres Barrán
+tags:
+- python profile
+modified_time: '2012-04-30T17:41:49.675+02:00'
+blogger_id: tag:blogger.com,1999:blog-5062930559472516636.post-6967910750582119019
+blogger_orig_url: http://sk-forgetmenot.blogspot.com/2012/02/python-realizar-profile-del-codigo.html
+---
+
+Para realizar un profile sencillo del código en Python se pueden usar: 
+
+<pre class="brush: python"><br />import cProfile<br />import pstats<br /><br />if __name__ == '__main__':<br /><br />    cProfile.run('main(sys.argv)', 'profile')<br />    p = pstats.Stats('profile')<br />    p.sort_stats("time")<br />    p.print_stats()<br />    main(sys.argv)<br /></pre>Este código imprimirá el tiempo de ejecución de todas las funciones a las que llama la función <code>main</code> ordenado de mayor a menor.

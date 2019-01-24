@@ -13,13 +13,10 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: MM Remote Theme Test
-email:
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: /mm-remote-theme-test
+title: Forget me not
+email: alberto.torres@icmat.es
+description: Machine learning at ICMAT-CSIC
+baseurl: 
 url: https://albertotb.github.io
 twitter_username:
 github_username: albertotb
@@ -28,6 +25,23 @@ minimal_mistakes_skin: default
 # Build settings
 markdown: kramdown
 remote_theme: mmistakes/minimal-mistakes
+#highlighter: rouge
+#lsi: false
+#excerpt_separator: "\n\n"
+#incremental: false
+#
+#
+## Markdown Processing
+#kramdown:
+#  input: GFM
+#  hard_wrap: false
+#  auto_ids: true
+#  footnote_nr: 1
+#  entity_output: as_char
+#  toc_levels: 1..6
+#  smart_quotes: lsquo,rsquo,ldquo,rdquo
+#  enable_coderay: false
+
 # Outputting
 permalink: /:categories/:title/
 paginate: 5 # amount of posts to show
@@ -45,11 +59,13 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "Michael Rose"
+  name   : "Alberto Torres Barrán"
   avatar : "/assets/images/bio-photo.jpg"
-  bio    : "My awesome biography constrained to a sentence or two goes here."
-  email  : # optional
+  bio    : "Machine learning at ICMAT-CSIC"
+  email  : 
   uri    : "https://mademistakes.com"
+  github : "albertotb"
+  linkdin: "albertotb"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

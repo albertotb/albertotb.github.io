@@ -1,0 +1,62 @@
+---
+title: 'awk: crear matriz de confusión'
+date: '2012-09-18T18:46:00.000+02:00'
+author: Alberto Torres Barrán
+tags: 
+modified_time: '2012-09-18T18:57:12.778+02:00'
+blogger_id: tag:blogger.com,1999:blog-5062930559472516636.post-1561687086046233843
+blogger_orig_url: http://sk-forgetmenot.blogspot.com/2012/09/awk-crear-matriz-de-confusion.html
+---
+
+En <i>machine learning</i> una forma muy común de mostrar los resultados de un modelo aplicado a un problema de clasificación es a través de una <a href="http://en.wikipedia.org/wiki/Confusion_matrix">matriz de confusión</a>. El siguiente script de awk crea una matriz de confusión a partir de un fichero donde la primera columna es la salida del modelo (binaria, 0 ó 1) y la segunda columna es la variable de salida real (también binaria, 0 ó 1):  
+
+{% highlight awk %}
+BEGIN{tp=0;tn=0;fp=0;fn=0}
+{
+   if($1==0)
+      $2==0? tn++ : fn++
+   else if ($1==1)
+      $2==1? tp++ : fp++
+}
+END{
+   printf("\nConfusion matrix:\n")
+   printf("+-----+------------+\n")
+   printf("| A\\P |   0     1  |\n")
+   printf("+-----+------------+\n")
+   printf("|  0  | %4d  %4d |\n",tn,fp)
+   printf("|  1  | %4d  %4d |\n",fn,tp)
+   printf("+-----+------------+\n")
+   printf("\nA=Actual, P=Predicted\n\n")
+   tpr = tp/(tp+fn)
+   tnr = tn/(fp+tn)
+   printf("Sensitivity = %g%\n", tpr*100)
+   printf("Specificity = %g%\n", tnr*100)
+   printf("Accuracy (balanced) = %g%\n", (tpr+tnr)/2*100)
+}
+{% endhighlight %}
+
+Un uso bastante común de este script es cuando tenemos un fichero con datos de test (<code>data.test</code>) donde cada columna representa una variable, separadas por comas. Una de esas columnas es la variable de salida (clase 0 ó clase 1). Para este ejemplo, vamos a suponer que dicha variable de salida se encuentra en la primera columna. Además, en un fichero aparte (<code>modelo.output</code>) tendríamos una única columna con la salida de nuestro modelo de clasificación aplicado en ese mismo fichero de test. En este caso, el script anterior se usa de la siguiente manera: 
+
+{% highlight bash%}
+cut -d"," -f1 data.test | paste -d" " modelo.output - | awk -f conf_matrix.awk 
+{% endhighlight %}
+
+La salida del comando anterior (suponiendo que el script de awk se encuentra en el fichero <code>conf_matrix.awk</code>) sería algo del estilo:  
+
+{% highlight terminal %}
+Accuracy = 71.4286% (220/308) (classification)
+
+Confusion matrix:
++-----+------------+
+| A\P |   0     1  |
++-----+------------+
+|  0  |  194    74 |
+|  1  |   14    26 |
++-----+------------+
+
+A=Actual, P=Predicted
+
+Sensitivity = 65%
+Specificity = 72.3881%
+Accuracy (balanced) = 68.694%
+{% endhighlight %}

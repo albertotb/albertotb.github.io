@@ -1,0 +1,33 @@
+---
+title: R read dataset
+date: '2013-09-19T18:03:00.003+02:00'
+author: Alberto Torres Barrán
+tags: 
+modified_time: '2013-10-01T19:20:42.353+02:00'
+blogger_id: tag:blogger.com,1999:blog-5062930559472516636.post-4045225714215701890
+blogger_orig_url: http://sk-forgetmenot.blogspot.com/2013/09/r-read-dataset.html
+---
+
+Usually, I store my datasets in an ASCII/CSV file where the first column is the output or response and the subsequent columns are the input variable, with on row per pattern/observation. In order to load those datasets in R, I'll often find myself separating the input from the output into two variables to feed them into some algorithm. Therefore I created the following function, that can be added to the .Rprofile  
+
+{% highlight r %}
+read.dataset <- function(file, response=1, ...) {
+
+   data <- read.table(file, ...)
+
+   x <- as.matrix(data[,-response])
+   y <- data[,response]
+
+   dataset <- list(x=x, y=y)
+   return(dataset)
+}
+{% endhighlight %}
+
+With the previous function I can read the dataset in one line, and access separatly the input variables and the output  
+
+{% highlight r %}
+    train <- read.dataset("somedata.train")
+    fit <- lm(train$y ~ train$x)
+{% endhighlight %}
+       
+The function also works if the output is not in the first column, changing the optional parameter <code>response</code>. Optional parameters are also passed along to R function <code>read.table</code>, for instance if the columns are delimited by commas instead of spaces.  
