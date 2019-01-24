@@ -1,6 +1,5 @@
 ---
 title: "Create new example environment in Latex"
-author: Alberto Torres Barrán
 tags: latex
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: "Equivalence between distribution functions in R and Python"
-author: Alberto Torres Barrán
 tags: r python scipy distributions
 ---
 

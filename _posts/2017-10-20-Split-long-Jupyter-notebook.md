@@ -1,6 +1,5 @@
 ---
 title: "Split long Jupyter notebook"
-author: Alberto Torres Barrán
 tags: python
 ---
 
