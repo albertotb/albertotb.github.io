@@ -63,10 +63,14 @@ author:
   name   : "Alberto Torres Barrán"
   avatar : "/assets/images/bio-photo.jpg"
   bio    : "Machine learning at ICMAT-CSIC"
-  email  : 
-  uri    : "https://mademistakes.com"
+  email  : "alberto.torres@icmat.es"
+  location : "Madrid"
   github : "albertotb"
   linkdin: "albertotb"
+  links :
+    - label : "Linkdin"
+      icon  : "fab fa-linkedin"
+      url   : "https://www.linkedin.com/in/albertotb/"
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
