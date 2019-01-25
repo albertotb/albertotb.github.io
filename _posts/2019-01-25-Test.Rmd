@@ -1,0 +1,14 @@
+---
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.path = '../assets/images/')
+knitr::render_jekyll()
+```
+
+Primero vamos a generar unos datos sencillos, similares a los del ejercicio:
+
+```{r sin_plot}
+plot(1:100, sin(1:100))
+```
