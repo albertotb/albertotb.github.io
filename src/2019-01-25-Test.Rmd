@@ -12,3 +12,37 @@ Sin plot
 ```{r sin_plot}
 plot(1:100, sin(1:100))
 ```
+
+```{r sales, message=FALSE, warning=FALSE}
+library(lubridate)
+library(tibble)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(forcats)
+library(purrr)
+
+set.seed(1234)
+
+sales <- tibble(date = ymd(rep(c(20180101, 20180102, 20180103), 3)),
+                product = rep(c("A", "B", "C"), each = 3),
+                sales = sample(1:20, size = 9, replace = T))
+sales
+```
+
+```{r}
+library(corrr)
+```
+
+```{r message=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+
+sales %>%
+  spread(key = product, value = sales) %>%
+  select(-date) %>%
+  correlate() %>%
+  shave() %>%
+  stretch(na.rm = TRUE)
+```
+
