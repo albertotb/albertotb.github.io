@@ -18,7 +18,7 @@ email: alberto.torres@icmat.es
 description: Machine learning at ICMAT-CSIC
 baseurl: 
 url: https://albertotb.github.io
-twitter_username:
+twitter_username: albertotba
 github_username: albertotb
 minimal_mistakes_skin: default
 
@@ -67,6 +67,7 @@ author:
   location : "Madrid"
   github : "albertotb"
   linkdin: "albertotb"
+  twitter: "albertotba"
   #links :
   #  - label : "Linkdin"
   #    icon  : "fab fa-linkedin"
