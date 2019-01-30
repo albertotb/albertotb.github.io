@@ -1,0 +1,93 @@
+---
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.path = '../assets/images/')
+knitr::render_jekyll()
+```
+
+This small example aims to provide some use cases for the `tidyr` package. Let's generate some example data first:
+
+```{r message=FALSE, warning=FALSE}
+library(lubridate)
+library(tibble)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(forcats)
+library(purrr)
+
+set.seed(1234)
+
+sales <- tibble(date = ymd(rep(c(20180101, 20180102, 20180103), 3)),
+                product = rep(c("A", "B", "C"), each = 3),
+                sales = sample(1:20, size = 9, replace = T))
+sales
+```
+
+We want to compute the correlation of the sales from products A, B and C. The base R function `cor()` takes a matrix or data.frame and computes the correlation between all the column pairs. Thus, first we need to convert the data.frame `sales`, which is in long form, to wide form with one column per product.
+
+```{r}
+cor_matrix <-
+  sales %>%
+    spread(key = product, value = sales) %>%
+    select(-date) %>%
+    cor()
+
+cor_matrix
+```
+
+To manipulate the correlation matrix using `tidyverse`-related functions we need to convert back the previous matrix to a long data.frame:
+
+```{r}
+cor_tidy <-
+  cor_matrix %>%
+    as.data.frame() %>% 
+    rownames_to_column(var = "product1") %>%
+    gather(key = product2, value = corr, -product1)
+cor_tidy
+```
+
+Now we can plot the correlation matrix using ggplo2, for instance with a heatmap:
+
+```{r, out.width="80%"}
+ggplot(cor_tidy, aes(x = product1, y = product2, fill = corr)) + geom_tile() + scale_fill_gradient2(limits = c(-1, 1))
+```
+
+Another common way of representing correlation is a vertical barplot. For this type of plot we often want to ignore the diagonal and upper/lower triangle, and sort from lowest to highest:
+
+```{r echo=FALSE, out.width="80%", fig.height = 3}
+cor_tidy %>%
+  filter(product1 != product2) %>%
+  distinct(products = paste(pmin(product1, product2), 
+                            pmax(product1, product2), sep = "_vs_"), .keep_all = TRUE) %>%
+  ggplot(aes(x = fct_reorder(products, corr), y = corr, fill = corr > 0.7)) + 
+    geom_col(width = 0.7) + 
+    coord_flip() + 
+    ylim(-1, 1) + 
+    xlab("products") + 
+    theme(aspect.ratio = 1/3) +
+    scale_fill_discrete(name = "Cor > 0.7", 
+                        breaks = c(TRUE, FALSE), 
+                        labels = c("Yes", "No"))
+```
+
+Here we are using a neat trick to ignore rows with duplicate product IDs ignoring its order (see [this](https://stackoverflow.com/questions/38687545/r-select-first-dataframe-row-for-each-unique-pair-ignoring-order) and [this]https://stackoverflow.com/questions/28574006/unique-rows-considering-two-columns-in-r-without-order answers from Stackoverflow). The previous trick can be generalized to more than two columns, although it is not trivial (see [this](https://stackoverflow.com/questions/30332490/finding-unique-tuples-in-r-but-ignoring-order) question for a base R solution). Let's create first some example data:
+
+```{r}
+values <- c("A", "B", "C")
+df <- expand.grid(ID1 = values, ID2 = values, ID3 = values, stringsAsFactors = FALSE)
+df
+```
+
+We would like to obtain unique ID combinations without taking order into account, that is, "AAB" and "ABA" are both the same:  
+
+```{r}
+distinct(df, ID = pmap_chr(select(df, starts_with("ID")), 
+                           ~paste0(sort(c(...)), collapse="_")))
+```
+
+Note the `c(...)`, since the `.f` argument in `pmap()` is a function with as many arguments as columns in the data frame (in contrast to base `apply()`). Thus we need to collect them all in a vector, which is then sorted and finally converted into a single value with `paste(..., collapse="_")`. 
+
+
