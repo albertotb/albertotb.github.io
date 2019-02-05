@@ -1,0 +1,10 @@
+---
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.path = '../assets/images/')
+knitr::render_jekyll()
+```
+
+
