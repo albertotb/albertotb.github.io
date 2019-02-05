@@ -3,8 +3,130 @@ output: md_document
 ---
 
 ```{r setup, include=FALSE}
+knitr::opts_knit$set(collapse = TRUE)
 knitr::opts_chunk$set(fig.path = '../assets/images/')
 knitr::render_jekyll()
 ```
 
+Inspired partly by [this](https://stackoverflow.com/questions/47759347/create-a-new-column-which-is-the-sum-of-specific-columns-selected-by-their-name/) and [this](https://stackoverflow.com/questions/28873057/sum-across-multiple-columns-with-dplyr/) Stackoverflow questions, I wanted to test what is the fastest way to create a new column using `dplyr` as a combination of others.
+
+First, let's create some example data
+
+```{r message=FALSE, warning=FALSE}
+library(tidyr)
+library(dplyr)
+library(tibble)
+library(stringr)
+library(purrr)
+library(readr)
+library(microbenchmark)
+
+set.seed(1234)
+n <- 1000000
+d <- 6
+
+m <- matrix(sample(c(0, 1), size = n*d, replace = TRUE), n, d,
+            dimnames = list(str_pad(1:n, str_length(n), pad = "0"), 
+                            c("A", "B", "C", "D", "E", "F")))
+
+df <- as_tibble(m, rownames = 'index')
+```
+
+We have a data frame with 6 binary columns, and we want to create another one which is the sum of these columns. The most straighforward way is using `mutate()` directly
+
+```{r}
+mutate(df, total = A + B + C + D + E + F)
+```
+
+This is probably going to be very fast, since it takes full advantage of R vectorized operations. The downside is that if we want to sum up say, 20 columns, we have to write down the name of all of them.
+
+The second approach is to use tidy data principles to transform the previous data frame into long form and then perform the operation by group:
+
+```{r}
+df %>%
+  gather(key, value, -index) %>%
+  group_by(index) %>%
+  summarize(total = sum(value))
+```
+
+The downside of this approach is that we have as many groups as rows in the original data frame, and usually grouped operations are not very efficient when the number of groups is very large. Of course, depending on the meaning of the columns "A", "B", etc. the data frame `df` may not be a tidy dataset, and it is always a good idea to transform those using tidy data principles. However, it also may already be in tidy form.
+
+The next possibility is to iterate over the rows of the original data, summing them up. Here we can use the functions `apply()` or `rowSums()` from base R and `pmap()` from the `purrr` package.
+
+```{r}
+mutate(df, total = rowSums(select(df, -index)))
+```
+
+These function perform the same operation but differ in many aspects:
+
+   * `apply()` coerces the data frame into a matrix, so care needs to be taken with non-numeric columns.
+   * `rowSums()` can only be used if we want to perform the sum or the mean (`rowMeans()`), but not for other operations.
+   * `pmap()` has variants that let you specifiy the type of the output (`pmap_dbl()`, `pmap_lgl()`) and thus are safer. If the output cannot be coerced to the given type an exception will be thrown.
+
+Finally, we have the `reduce()` function from the `purrr` package (see [this](https://adv-r.hadley.nz/functionals.html#reduce) chapter from "Advanced R" by Hadley Wickham to learn more). This function lets us take full advantage of R vectorized operation and write the operation very concisely, whether it be 6 or 20 columns.
+
+```{r}
+mutate(df, total = reduce(select(df, -index), `+`))
+```
+
+We can measure the running time of every snippet of code using the package `microbenchmark`.
+
+```{r}
+check_equal <- function(values) {
+  all(sapply(values[-1], function(x) all_equal(values[[1]], x)))
+}
+
+bm <- microbenchmark(
+  "vectorized" = {
+    df %>%
+      mutate(total = A + B + C + D + E + F) %>%
+      select(index, total)
+  },
+  "gather" = { 
+    df %>%
+      gather(key, value, -index) %>%
+      group_by(index) %>%
+      summarize(total = sum(value))
+  },
+  "pmap" = {
+    df %>%
+      mutate(total = pmap_dbl(select(., -index), sum)) %>%
+      select(index, total)      
+  },
+  "rowSums" = {
+    df %>%
+      mutate(total = rowSums(select(., -index))) %>%
+      select(index, total)      
+  },
+  "apply" = {
+    df %>%
+      mutate(total = apply(select(., -index), 1, sum)) %>%
+      select(index, total)      
+  },
+  "reduce" = {
+    df %>%
+      mutate(total = reduce(select(df, -index), `+`)) %>%
+      select(index, total)
+  },
+  check = check_equal,
+  times = 10
+)
+```
+
+```{r message=FALSE}
+print(bm, order = 'median', signif = 3)
+```
+
+The results are mostly as expected. The vectorized code is the fastest, but it is not very concise. The `reduce()` function is also very fast, and can be used with any number of columns. The slowest is the `gather()`approach, and it should probably be avoided unless you already need to tidy your data.
+
+Two things were really surprising:
+  * `rowSums()` is much faster than `apply()` and almost as good as `reduce()`. As mentioned before it can only be used when computing the sum or the mean.
+  * `apply()` is twice as fast as `pmap_dbl()`, probably because of the extra checks needed by `pmap()`. However, I would expect them to be much closer.
+  
+We end this post with a violin plot of the results:
+
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
+autoplot(bm)
+```
 

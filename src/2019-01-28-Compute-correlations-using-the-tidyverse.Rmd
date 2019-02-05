@@ -59,7 +59,7 @@ ggplot(cor_tidy, aes(x = product1, y = product2, fill = corr)) +
 
 Another common way of representing correlation is a vertical barplot. For this type of plot we often want to ignore the diagonal and upper/lower triangle, and sort from lowest to highest:
 
-```{r out.width="80%"}
+```{r out.width="80%", fig.asp=1/3}
 cor_tidy %>%
   filter(product1 != product2) %>%
   distinct(products = paste(pmin(product1, product2), 

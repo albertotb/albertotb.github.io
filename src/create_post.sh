@@ -5,14 +5,14 @@ shift
 
 name=$(basename ${filename%.*})
 infile="$name.md"
-outfile="../_posts/$infile"
+outfile="../_posts/$(date -I)-$infile"
 title=${name//-/ }
 
 echo $infile $outfile $title
 
 cat >$outfile <<EOF
 ---
-title: "${title:11}"
+title: "$title"
 tags: $@
 ---
 EOF
