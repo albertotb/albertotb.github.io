@@ -95,16 +95,18 @@ Now we can plot the correlation matrix using ggplo2, for instance with a heatmap
 
 
 {% highlight r %}
-ggplot(cor_tidy, aes(x = product1, y = product2, fill = corr)) + geom_tile() + scale_fill_gradient2(limits = c(-1, 1))
+ggplot(cor_tidy, aes(x = product1, y = product2, fill = corr)) + 
+  geom_tile() + 
+  scale_fill_gradient2(limits = c(-1, 1))
 {% endhighlight %}
 
-<img src="../assets/images/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="80%" />
+<img src="../assets/images/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="100%" />
 
 Another common way of representing correlation is a vertical barplot. For this type of plot we often want to ignore the diagonal and upper/lower triangle, and sort from lowest to highest:
 
 <img src="../assets/images/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="80%" />
 
-Here we are using a neat trick to ignore rows with duplicate product IDs ignoring its order (see [this](https://stackoverflow.com/questions/38687545/r-select-first-dataframe-row-for-each-unique-pair-ignoring-order) and [this](https://stackoverflow.com/questions/28574006/unique-rows-considering-two-columns-in-r-without-order answers from Stackoverflow). The previous trick can be generalized to more than two columns, although it is not trivial (see [this](https://stackoverflow.com/questions/30332490/finding-unique-tuples-in-r-but-ignoring-order) question for a base R solution). Let's create first some example data:
+Here we are using a neat trick to ignore rows with duplicate product IDs ignoring its order (see [this](https://stackoverflow.com/questions/38687545/r-select-first-dataframe-row-for-each-unique-pair-ignoring-order) and [this](https://stackoverflow.com/questions/28574006/unique-rows-considering-two-columns-in-r-without-order answers from Stackoverflow)). The previous trick can be generalized to more than two columns, although it is not trivial (see [this](https://stackoverflow.com/questions/30332490/finding-unique-tuples-in-r-but-ignoring-order) question for a base R solution). Let's create first some example data:
 
 
 {% highlight r %}
