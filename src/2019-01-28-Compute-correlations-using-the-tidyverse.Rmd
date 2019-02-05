@@ -49,15 +49,17 @@ cor_tidy <-
 cor_tidy
 ```
 
-Now we can plot the correlation matrix using ggplo2, for instance with a heatmap:
+Now we can plot the correlation matrix using ggplot2, for instance with a heatmap:
 
 ```{r, out.width="80%"}
-ggplot(cor_tidy, aes(x = product1, y = product2, fill = corr)) + geom_tile() + scale_fill_gradient2(limits = c(-1, 1))
+ggplot(cor_tidy, aes(x = product1, y = product2, fill = corr)) + 
+  geom_tile() + 
+  scale_fill_gradient2(limits = c(-1, 1))
 ```
 
 Another common way of representing correlation is a vertical barplot. For this type of plot we often want to ignore the diagonal and upper/lower triangle, and sort from lowest to highest:
 
-```{r echo=FALSE, out.width="80%", fig.height = 3}
+```{r out.width="80%", fig.height = 3}
 cor_tidy %>%
   filter(product1 != product2) %>%
   distinct(products = paste(pmin(product1, product2), 
@@ -89,5 +91,4 @@ distinct(df, ID = pmap_chr(select(df, starts_with("ID")),
 ```
 
 Note the `c(...)`, since the `.f` argument in `pmap()` is a function with as many arguments as columns in the data frame (in contrast to base `apply()`). Thus we need to collect them all in a vector, which is then sorted and finally converted into a single value with `paste(..., collapse="_")`. 
-
 
