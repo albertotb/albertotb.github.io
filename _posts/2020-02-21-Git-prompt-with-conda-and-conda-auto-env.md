@@ -62,15 +62,15 @@ Let us explain what the previous code does:
 
   1. Define colors to use for prompt, this will make the `PS1` variable easier to modify
   2. Define a function `git_and_conda_prompt`. We get the git status from `__git_ps1` (provided by `git-prompt.sh`) and color the name of the repository according to the status:
-    * `*` unstaged files
-    * `$` stashed files
-    * `%` untracked files
-    * `+` uncommited files
+     * `*` unstaged files
+     * `$` stashed files
+     * `%` untracked files
+     * `+` uncommited files
   3. Build the `PS1` variable, this line can be customized by changing the information and colors:
-    * `$CONDA_PROMPT_MODIFIER`, current conda environment
-    * `\u`: username
-    * `\h`: hostname
-    * `\w`: working directory
+     * `$CONDA_PROMPT_MODIFIER`, current conda environment
+     * `\u`: username
+     * `\h`: hostname
+     * `\w`: working directory
   4. Add `conda_auto_env` (provided by `conda_auto_env.sh`) and `git_and_conda_prompt` to the `$PROMPT_COMMAND` variable. This variable will be executed just before displaying the prompt. The order is important, since we want to activate the environment first (if any) and then display the prompt with all the information.
 
 The variable [`$CONDA_PROMPT_MODIFIER`](https://github.com/conda/conda/issues/1070) is set by `conda activate` and contains the name of the current environment between `()`. `conda init` already shows this information in the prompt by setting the `PS1` variable, however we have to add it manually to since we are overriding `PS1` in the function `git_and_conda_prompt`.  
