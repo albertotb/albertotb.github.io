@@ -14,8 +14,8 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Forget me not
-email: alberto.torres@icmat.es
-description: Machine learning at ICMAT-CSIC
+email: albertotb@gmail.com
+description: Machine learning at Komorebi
 baseurl: 
 url: https://albertotb.github.io
 twitter_username: albertotba
@@ -62,8 +62,8 @@ plugins:
 author:
   name   : "Alberto Torres Barrán"
   avatar : "/assets/images/bio-photo.jpg"
-  bio    : "Machine learning at ICMAT-CSIC"
-  email  : "alberto.torres@icmat.es"
+  bio    : "Machine learning at Komorebi"
+  email  : "albertotb@gmail.com"
   location : "Madrid"
   github : "albertotb"
   linkdin: "albertotb"
